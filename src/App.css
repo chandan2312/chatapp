@@ -1,0 +1,59 @@
+#root {
+	height: "100vh";
+}
+
+/* Customize the scrollbar */
+/* Hide both x and y direction scrollbars */
+::-webkit-scrollbar {
+	width: 0px;
+}
+
+/* Handle for the scrollbar */
+::-webkit-scrollbar-thumb {
+	background: #d7d7d7;
+	border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/* Track for the scrollbar */
+::-webkit-scrollbar-track {
+	background: #f0f0f0;
+}
+
+/* Automatically hide the scrollbar after 500ms */
+::-webkit-scrollbar {
+	width: 0px;
+	visibility: hidden; /* Hide the scrollbar */
+}
+
+/* When you hover over the container, show the scrollbar */
+.container:hover ::-webkit-scrollbar {
+	width: 0px;
+	visibility: visible; /* Show the scrollbar on hover */
+}
+
+/* Additional styling (example) */
+.container {
+	width: 300px;
+	height: 300px;
+	overflow: auto;
+	border: 0px solid #ccc;
+	margin: 0px;
+	overflow-x: hidden;
+	position: relative; /* Add relative positioning to the container */
+}
+
+/* Remove the white strip at the bottom */
+.container::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 20px; /* Adjust the height as needed to cover the white strip */
+	background: #fff; /* Match the background color of your container */
+}
