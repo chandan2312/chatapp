@@ -10,7 +10,7 @@ import {
 } from "./MsgTypes";
 import { Box, Stack } from "@mui/material";
 
-const Message = () => {
+const Message = ({ menu }) => {
 	return (
 		<Box p={3}>
 			<Stack direction="column" spacing={3}>
@@ -22,19 +22,19 @@ const Message = () => {
 						case "msg":
 							switch (el.subtype) {
 								default:
-									return <TextMsg el={el} />;
+									return <TextMsg el={el} menu={menu} />;
 									break;
 								case "img":
-									return <MediaMsg el={el} />;
+									return <MediaMsg el={el} menu={menu} />;
 									break;
 								case "doc":
-									return <DocMsg el={el} />;
+									return <DocMsg el={el} menu={menu} />;
 									break;
 								case "link":
-									return <LinkMsg el={el} />;
+									return <LinkMsg el={el} menu={menu} />;
 									break;
 								case "reply":
-									return <ReplyMsg el={el} />;
+									return <ReplyMsg el={el} menu={menu} />;
 									break;
 
 								// Pass el prop to TextMsg component

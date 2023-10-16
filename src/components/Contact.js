@@ -1,14 +1,19 @@
+import React from "react";
 import {
 	Avatar,
 	Box,
 	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
 	Divider,
 	IconButton,
+	Slide,
 	Stack,
 	Typography,
 } from "@mui/material";
-import React from "react";
-import { useTheme } from "@mui/material/styles";
 import {
 	Bell,
 	CaretRight,
@@ -19,14 +24,77 @@ import {
 	VideoCamera,
 	X,
 } from "phosphor-react";
+import { useTheme } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
-import { ToggleSidebar } from "../redux/slices/app";
+import { ToggleSidebar, UpdateSidebarType } from "../redux/slices/app";
 import { faker } from "@faker-js/faker";
 import AntSwitch from "./AntSwitch";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+	return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const BlockDialog = ({ open, handleClose }) => {
+	return (
+		<Dialog
+			open={open}
+			TransitionComponent={Transition}
+			keepMounted
+			onClose={handleClose}
+			aria-describedby="alert-dialog-slide-description"
+		>
+			<DialogTitle>{"Are you Sure to Block this contact?"}</DialogTitle>
+			<DialogContent>
+				<DialogContentText id="alert-dialog-slide-description">
+					Let Google help apps determine location. This means sending anonymous
+					location data to Google, even when no apps are running.
+				</DialogContentText>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={handleClose}>Cancel</Button>
+				<Button onClick={handleClose}>Yes</Button>
+			</DialogActions>
+		</Dialog>
+	);
+};
+
+const DeleteDialog = ({ open, handleClose }) => {
+	return (
+		<Dialog
+			open={open}
+			TransitionComponent={Transition}
+			keepMounted
+			onClose={handleClose}
+			aria-describedby="alert-dialog-slide-description"
+		>
+			<DialogTitle>{"Delete This Chat?"}</DialogTitle>
+			<DialogContent>
+				<DialogContentText id="alert-dialog-slide-description">
+					Let Google help apps determine location. This means sending anonymous
+					location data to Google, even when no apps are running.
+				</DialogContentText>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={handleClose}>Cancel</Button>
+				<Button onClick={handleClose}>Yes</Button>
+			</DialogActions>
+		</Dialog>
+	);
+};
 
 const Contact = () => {
 	const theme = useTheme();
 	const dispatch = useDispatch();
+
+	const [openBlock, setOpenBlock] = React.useState(false);
+	const [openDelete, setOpenDelete] = React.useState(false);
+
+	const handleCloseBlock = () => {
+		setOpenBlock(false);
+	};
+	const handleCloseDelete = () => {
+		setOpenDelete(false);
+	};
 
 	return (
 		<Box
@@ -131,7 +199,14 @@ const Contact = () => {
 						justifyContent={"space-between"}
 					>
 						<Typography variant="subtitle2">Media, Links & Docs</Typography>
-						<Button endIcon={<CaretRight />}>406</Button>
+						<Button
+							onClick={() => {
+								dispatch(UpdateSidebarType("SHARED"));
+							}}
+							endIcon={<CaretRight />}
+						>
+							406
+						</Button>
 					</Stack>
 
 					<Stack direction="row" spacing={2} alignItems="center">
@@ -155,7 +230,11 @@ const Contact = () => {
 							<Typography variant="subtitle2">Starred Messages</Typography>
 						</Stack>
 
-						<IconButton>
+						<IconButton
+							onClick={() => {
+								dispatch(UpdateSidebarType("STARRED"));
+							}}
+						>
 							<CaretRight />
 						</IconButton>
 					</Stack>
@@ -190,15 +269,37 @@ const Contact = () => {
 
 					{/* Buttons */}
 					<Stack direction="row" alignItems="center" spacing={2}>
-						<Button startIcon={<Prohibit />} fullWidth variant="outlined">
+						<Button
+							onClick={() => {
+								setOpenBlock(true);
+							}}
+							startIcon={<Prohibit />}
+							fullWidth
+							variant="outlined"
+						>
 							Block
 						</Button>
-						<Button startIcon={<Trash />} fullWidth variant="outlined">
+						<Button
+							onClick={() => {
+								setOpenDelete(true);
+							}}
+							startIcon={<Trash />}
+							fullWidth
+							variant="outlined"
+						>
 							Delete
 						</Button>
 					</Stack>
 				</Stack>
 			</Stack>
+
+			{/* Dialogs */}
+			{openBlock && (
+				<BlockDialog open={openBlock} handleClose={handleCloseBlock} />
+			)}
+			{openDelete && (
+				<DeleteDialog open={openDelete} handleClose={handleCloseDelete} />
+			)}
 		</Box>
 	);
 };

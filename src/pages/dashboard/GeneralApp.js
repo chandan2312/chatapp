@@ -5,6 +5,8 @@ import Conversation from "../../components/conversation";
 import { useTheme } from "@mui/material/styles";
 import Contact from "../../components/Contact";
 import { useSelector } from "react-redux";
+import SharedMessages from "../../components/SharedMessages";
+import StarredMessages from "../../components/StarredMessages";
 
 // lazy load the cat component
 
@@ -29,7 +31,22 @@ const GeneralApp = () => {
 			</Box>
 
 			{/* contact */}
-			{sidebar.open && <Contact />}
+			{sidebar.open &&
+				(() => {
+					switch (sidebar.type.type) {
+						case "CONTACT":
+							return <Contact />;
+
+						case "SHARED":
+							return <SharedMessages />;
+
+						case "STARRED":
+							return <StarredMessages />;
+
+						default:
+							break;
+					}
+				})()}
 		</Stack>
 	);
 };
