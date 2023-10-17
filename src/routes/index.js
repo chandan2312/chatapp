@@ -8,10 +8,6 @@ import DashboardLayout from "../layouts/dashboard";
 import { DEFAULT_PATH } from "../config";
 import LoadingScreen from "../components/LoadingScreen";
 import AuthLayout from "../layouts/main";
-import Login from "../pages/auth/Login";
-import Register from "../pages/auth/Register";
-import ResetPassword from "../pages/auth/ResetPassword";
-import NewPassword from "../pages/auth/NewPassword";
 
 //suspense display a component when loaded, until then display a loading screen
 const Loadable = (Component) => (props) => {
@@ -28,10 +24,10 @@ export default function Router() {
 			path: "/auth",
 			element: <AuthLayout />,
 			children: [
-				{ path: "login", element: <Login /> },
-				{ path: "register", element: <Register /> },
-				{ path: "reset-password", element: <ResetPassword /> },
-				{ path: "new-password", element: <NewPassword /> },
+				{ path: "login", element: <LoginPage /> },
+				{ path: "register", element: <RegisterPage /> },
+				{ path: "reset-password", element: <ResetPasswordPage /> },
+				{ path: "new-password", element: <NewPasswordPage /> },
 			],
 		},
 
@@ -42,7 +38,7 @@ export default function Router() {
 				{ element: <Navigate to={DEFAULT_PATH} replace />, index: true },
 				{ path: "app", element: <GeneralApp /> },
 				{ path: "settings", element: <Settings /> },
-
+				{ path: "group", element: <GroupPage /> },
 				{ path: "404", element: <Page404 /> },
 				{ path: "*", element: <Navigate to="/404" replace /> },
 			],
@@ -63,6 +59,7 @@ const ResetPasswordPage = Loadable(
 const NewPasswordPage = Loadable(
 	lazy(() => import("../pages/auth/NewPassword"))
 );
+const GroupPage = Loadable(lazy(() => import("../pages/dashboard/Group")));
 
 const Settings = Loadable(lazy(() => import("../pages/dashboard/Settings")));
 const Page404 = Loadable(lazy(() => import("../pages/Page404")));

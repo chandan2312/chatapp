@@ -5,10 +5,12 @@ import {
 	Box,
 	Divider,
 	IconButton,
+	Link,
 	Menu,
 	MenuItem,
 	Stack,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import { Gear } from "phosphor-react";
 import { Nav_Buttons, Profile_Menu } from "../../data";
 import { useState } from "react";
@@ -54,16 +56,18 @@ const Sidebar = () => {
 				spacing={3}
 			>
 				<Stack sx={{ alignItems: "center" }} spacing={4}>
-					<Box
-						sx={{
-							backgroundColor: theme.palette.primary.main,
-							height: 64,
-							width: 64,
-							borderRadius: 1.5,
-						}}
-					>
-						<img src={Logo} alt="Chat App Logo" />
-					</Box>
+					<Link component={RouterLink} to="/app">
+						<Box
+							sx={{
+								backgroundColor: theme.palette.primary.main,
+								height: 64,
+								width: 64,
+								borderRadius: 1.5,
+							}}
+						>
+							<img src={Logo} alt="Chat App Logo" />
+						</Box>
+					</Link>
 					<Stack
 						sx={{ width: "max-content" }}
 						direction="column"
@@ -108,21 +112,30 @@ const Sidebar = () => {
 									borderRadius: 1.5,
 								}}
 							>
-								<IconButton sx={{ width: "max-content", color: "#fff" }}>
-									<Gear />
-								</IconButton>
+								<Link component={RouterLink} to="/settings">
+									<IconButton
+										onClick={() => settSelected(3)}
+										sx={{ width: "max-content", color: "#fff" }}
+									>
+										<Gear />
+									</IconButton>
+								</Link>
 							</Box>
 						) : (
-							<IconButton
-								sx={{
-									width: "max-content",
-									color:
-										theme.palette.mode === "light" ? "#000" : theme.palette.text.primary,
-								}}
-								onClick={() => settSelected(3)}
-							>
-								<Gear />
-							</IconButton>
+							<Link component={RouterLink} to="/settings">
+								<IconButton
+									component={RouterLink}
+									to="/settings"
+									sx={{
+										width: "max-content",
+										color:
+											theme.palette.mode === "light" ? "#000" : theme.palette.text.primary,
+									}}
+									onClick={() => settSelected(3)}
+								>
+									<Gear />
+								</IconButton>
+							</Link>
 						)}
 					</Stack>
 				</Stack>
