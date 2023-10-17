@@ -15,11 +15,11 @@ import {
 import { MagnifyingGlass, Plus } from "phosphor-react";
 import { useTheme } from "@mui/material/styles";
 import { SimpleBarStyle } from "../../components/Scrollbar";
-import { ChatList } from "../../data";
-import ChatElement from "../../components/ChatElement";
-import CreateGroup from "../../sections/main/CreateGroup";
+import { CallLogElement } from "../../components/CallElement";
+import { CallLogs } from "../../data";
+import StartCall from "../../sections/main/StartCall";
 
-const Group = () => {
+const Call = () => {
 	const theme = useTheme();
 
 	const [openDialog, setOpenDialog] = React.useState(false);
@@ -43,7 +43,7 @@ const Group = () => {
 				>
 					<Stack p={3} spacing={2} sx={{ height: "100vh" }}>
 						<Stack>
-							<Typography variant="h5">Groups</Typography>
+							<Typography variant="h5">Call Logs</Typography>
 						</Stack>
 
 						{/* Search bar */}
@@ -65,7 +65,7 @@ const Group = () => {
 							alignItems={"center"}
 						>
 							<Typography variant="subtitle1" component={Link}>
-								Create a new group
+								Start Conversation
 							</Typography>
 							<IconButton onClick={() => setOpenDialog(true)}>
 								<Plus style={{ color: theme.palette.primary.main }} />
@@ -81,20 +81,13 @@ const Group = () => {
 							<SimpleBarStyle timeout={500} clickOnTrack={false}>
 								<Stack spacing={2}>
 									<Typography sx={{ color: "#676767" }} variant="subtitle1">
-										Pinned
+										History
 									</Typography>
-									{ChatList.filter((el) => el.pinned).map((el) => {
-										return <ChatElement {...el} key={el.id} />;
-									})}
-								</Stack>
 
-								<Stack spacing={2} sx={{ marginTop: "16px" }}>
-									<Typography sx={{ color: "#676767" }} variant="subtitle1">
-										All Chats
-									</Typography>
-									{ChatList.filter((el) => !el.pinned).map((el) => {
-										return <ChatElement {...el} key={el.id} />;
-									})}
+									{/* Call Logs */}
+									{CallLogs.map((el) => (
+										<CallLogElement {...el} />
+									))}
 								</Stack>
 							</SimpleBarStyle>
 						</Stack>
@@ -106,10 +99,10 @@ const Group = () => {
 			</Stack>
 
 			{openDialog && (
-				<CreateGroup open={openDialog} handleClose={handleCloseDialog} />
+				<StartCall open={openDialog} handleClose={handleCloseDialog} />
 			)}
 		</>
 	);
 };
 
-export default Group;
+export default Call;
